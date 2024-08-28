@@ -1,0 +1,111 @@
+
+
+ https://app.diagrams.net/#G1-4YsoI_d3n-2gn1jEiT-y0QVxoyakE1k#%7B%22pageId%22%3A%228WzLKlR86nQ_7WP0kBkH%22%7D
+
+
+DEworkflow.png
+Here is a short description of the workflow shown in the image:
+
+Source (Prism data in MySQL):
+
+Prism data is stored in MySQL Workbench.
+
+Phase 1 - Extraction:
+
+Crawler: Scans and extracts metadata from the source (MySQL database).
+
+Phase 2 - Data Catalog/Replica:
+
+Data is cataloged and stored as a replica for further processing.
+
+Phase 3 - S3 Storage:
+
+Extracted data is stored in S3 in CSV format.
+
+Phase 4 - Transformation:
+
+AWS Glue: Utilizes the stored data in S3 to transform it into the desired format.
+
+Data is processed incrementally through a pipeline.
+
+Phase 5 - Loading to Target (Riddhi Database):
+
+The current data, along with a timestamp, is loaded into the Riddhi Database.
+
+Stored procedures are used to manipulate and manage the final tables in the database.
+
+Phase 6 - Data Reporting:
+
+Redshift: Handles data warehousing and enables querying for reporting.
+
+Data reporting and dashboards are created.
+
+Phase 7 - Monitoring:
+
+The entire process is monitored through CloudWatch.
+
+Phase 8 - Data Visualization:
+
+Data is visualized using Power BI for reporting and dashboard creation.
+
+This workflow represents a complete ETL (Extract, Transform, Load) process, where data is extracted from the source, transformed, loaded into the target database, and then visualized for reporting.
+
+ 
+
+Strengths:
+Modular Phases:
+
+The workflow is divided into clear phases (extraction, transformation, loading, etc.), which makes it easier to manage, monitor, and scale.
+
+Scalability:
+
+Using AWS Glue, S3, and Redshift allows for handling large volumes of data efficiently and can scale with increasing data sizes.
+
+Automation:
+
+The process involves automated components (like AWS Glue and Crawler), reducing manual intervention and human error.
+
+Monitoring and Logging:
+
+CloudWatch integration ensures that the entire pipeline is monitored, and any issues can be quickly identified and addressed.
+
+Data Management:
+
+The use of stored procedures to manage and manipulate data in the final database adds a layer of control and ensures that the data is in the desired format.
+
+Data Visualization:
+
+Power BI for visualization allows for comprehensive reporting and insights.
+
+Potential Improvements:
+Data Validation:
+
+Add Validation Layers: Before loading data into the Riddhi Database, you might want to include a data validation step to ensure data quality and consistency.
+
+Data Security:
+
+Encryption: Ensure that data at rest in S3 and in transit between services is encrypted. Implement IAM policies carefully to restrict access to sensitive data.
+
+Data Partitioning:
+
+Optimize S3 Storage: Consider partitioning data in S3 based on specific criteria (e.g., date, region) to improve query performance and reduce costs when accessing data.
+
+Error Handling:
+
+Robust Error Handling: Include more robust error-handling mechanisms to manage any failures during the ETL process, such as retries, notifications, and detailed logging.
+
+Pipeline Orchestration:
+
+Consider Step Functions: If the pipeline grows more complex, consider using AWS Step Functions or a similar orchestration tool to manage the execution flow and dependencies between different stages.
+
+Data Lineage:
+
+Track Data Lineage: Implement a system to track data lineage, helping to understand the transformation journey of data from source to target, which is useful for debugging and audits.
+
+Performance Tuning:
+
+Optimize Glue Jobs: Regularly review and optimize AWS Glue jobs for performance, such as fine-tuning the number of workers and using AWS Glue job bookmarks for incremental processing.
+
+Cost Management:
+
+Cost Monitoring: Keep a close eye on the cost implications of using AWS services (S3, Glue, Redshift) and ensure that the resources are being used efficiently.
